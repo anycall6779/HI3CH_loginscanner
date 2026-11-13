@@ -5,8 +5,6 @@
 - Bilibili China channel authentication and PC QR approval flow.
 - Encrypted multi-account profiles, local aliases, camera/image QR decoding, minimal local history.
 - High-resolution camera input, autofocus, multi-region decoding and optional zoom.
-- No in-app GitHub repository link. Developer blog: https://blog.naver.com/rkdrlgh22
-
 ## Release status
 
 Source is public. 0.7.0-beta removes all user-log dispatch fixtures and fetches fresh configuration from the original HonkaiScanner service after explicit consent. This is **not direct official dispatch retrieval**. APK publication remains pending clean-install authentication and actual PC B服 login verification. No account data or signing keys are included.
