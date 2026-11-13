@@ -7,7 +7,7 @@
 - High-resolution camera input, autofocus, multi-region decoding and optional zoom.
 ## Release status
 
-Source is public. 0.7.0-beta removes all user-log dispatch fixtures and fetches fresh configuration from the original HonkaiScanner service after explicit consent. This is **not direct official dispatch retrieval**. APK publication remains pending clean-install authentication and actual PC B服 login verification. No account data or signing keys are included.
+Source and the verified beta APK are available through this repository’s Releases. 0.7.0-beta removes all user-log dispatch fixtures and fetches fresh configuration from the original HonkaiScanner service after explicit consent. This is **not direct official dispatch retrieval**. Clean-install authentication and actual PC B服 login were confirmed by the tester for 9.1.0 on 2026-11-13. This is an experimental Bilibili-only beta; unverified social/other-channel features must not be advertised as supported. No account data or signing keys are included.
 
 The external service receives the selected game version and fixed protocol compatibility headers, not account IDs, tokens, QR tickets or real device IDs. It sees connection IP/time. It is a single external dependency: outages or incompatible/incorrect responses stop approval, with no fixture fallback. Encrypted config is structurally checked, not independently decrypted/authenticated. See [provider details](DISPATCH.ko.md).
 
