@@ -23,6 +23,10 @@ final class LocalTests {
             Bitmap bitmap=Bitmap.createBitmap(pixels,512,512,Bitmap.Config.ARGB_8888);require(url.equals(ImageQr.decode(bitmap)),"gallery QR decoder");
             require(Api.sdkSign(Api.fields("b","2","a","1")).equals("fa6aab4fb56c851d908fb5c6231a7f90"),"SDK signature vector");
             JSONObject signed=new JSONObject().put("app_id",1).put("device","test");Api.signGame(signed);require(signed.getString("sign").equals("ac2e1c72463f226ef93bc2d83a79d48bee298ad62eae683941d79eb2b9a31ed5"),"game signature vector");
+            require(DispatchProvider.validateVersion("9.1.0").equals("9.1.0"),"dispatch version");
+            String valid=android.util.Base64.encodeToString(new byte[192],android.util.Base64.NO_WRAP);require(DispatchProvider.validate(new JSONObject().put("retcode",0).put("data",valid)).equals(valid),"dispatch valid structure");
+            for(JSONObject bad:new JSONObject[]{new JSONObject().put("retcode",12).put("data",valid),new JSONObject().put("retcode",0).put("data","AA=="),new JSONObject().put("retcode",0).put("data",valid+"!"),new JSONObject().put("data",valid)}){boolean rejected=false;try{DispatchProvider.validate(bad);}catch(Exception e){rejected=true;}require(rejected,"dispatch rejection");}
+            android.util.Log.i("BiliLightTest","DISPATCH_VALIDATION_TESTS_OK");
             SmallQrTests.run();android.util.Log.i("BiliLightTest","LOCAL_PROFILE_IMAGE_SIGNATURE_TESTS_OK");return "로컬 검사 통과: 기존 세션 변환 · 다중 계정 · 암호화 · 이미지 QR · 작은 저명암 QR · 화면 가장자리 QR · 서명 벡터";
         }finally{v.clear();}
     }

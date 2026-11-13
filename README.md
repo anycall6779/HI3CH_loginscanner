@@ -9,13 +9,15 @@
 
 ## Release status
 
-Source is public. APK releases are intentionally withheld until independent official dispatch retrieval and a clean end-to-end login are verified. User-derived dispatch fixtures, account files, logs and signing keys are **not included**. The current source builds, but PC approval stops without a verified dispatch provider.
+Source is public. 0.7.0-beta removes all user-log dispatch fixtures and fetches fresh configuration from the original HonkaiScanner service after explicit consent. This is **not direct official dispatch retrieval**. APK publication remains pending clean-install authentication and actual PC B服 login verification. No account data or signing keys are included.
+
+The external service receives the selected game version and fixed protocol compatibility headers, not account IDs, tokens, QR tickets or real device IDs. It sees connection IP/time. It is a single external dependency: outages or incompatible/incorrect responses stop approval, with no fixture fallback. Encrypted config is structurally checked, not independently decrypted/authenticated. See [provider details](DISPATCH.ko.md).
 
 See [Korean guide](README.ko.md), [features](FEATURES.ko.md), [privacy](PRIVACY.ko.md) and [release blockers](RELEASE-BLOCKERS.ko.md). Do not advertise other upstream channels as implemented.
 
 ## Build
 
-Requires JDK 17, Android SDK Platform 34 and Build Tools 36.0.0. Run `./build.ps1` in PowerShell. Dependencies are version-pinned and SHA-256 checked. No Gradle installation is required.
+Requires JDK 17, Android SDK Platform 34 and Build Tools 36.0.0. Run `./build.ps1` in PowerShell. Dependencies are version-pinned and SHA-256 checked. No Gradle installation is required. For maintainer signing use `-SigningKeystore KEYSTORE -SigningAlias honkaiqr` with `HONKAIQR_STORE_PASS` set locally. Never commit/upload the key or password. Release package: `io.anycall6779.honkaiqr`; existing development app data is not imported.
 
 ## Attribution
 

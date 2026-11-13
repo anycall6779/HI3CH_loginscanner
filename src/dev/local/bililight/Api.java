@@ -144,16 +144,6 @@ public final class Api {
     }
     static void checkGame(JSONObject r)throws Exception{if(!r.has("retcode")||r.optInt("retcode",-1)!=0)throw new IOException("게임 인증 오류 "+r.optString("retcode","unknown")+": "+safe(r.optString("message")));}
     static void event(String stage,String code){android.util.Log.i("BiliLightStage",stage+" retcode="+code.replaceAll("[^0-9-]","?"));}
-    String fixtureDispatch()throws Exception{
-        try(InputStream in=context.getAssets().open("dispatch-9.1.0.fixture")){
-            ByteArrayOutputStream out=new ByteArrayOutputStream();byte[] buffer=new byte[4096];int n;
-            while((n=in.read(buffer))!=-1){out.write(buffer,0,n);if(out.size()>100000)throw new IOException("Dispatch fixture too large");}
-            String value=out.toString("US-ASCII").trim();
-            if(!value.matches("[A-Za-z0-9+/]+={0,2}")||Base64.decode(value,Base64.DEFAULT).length%16!=0)throw new IOException("잘못된 dispatch fixture");
-            // TEMPORARY version-pinned configuration fixture, NOT account credentials.
-            return value;
-        }
-    }
     static String ticket(String url)throws Exception{
         if(url==null||url.length()>8192)throw new IOException("잘못된 QR");Uri u=Uri.parse(url);String h=u.getHost();
         if(!"https".equals(u.getScheme())||h==null||!(h.equals("mihoyo.com")||h.endsWith(".mihoyo.com"))||u.getUserInfo()!=null||u.getPort()!=-1)throw new IOException("미호요 공식 HTTPS 게임 QR만 허용합니다.");
@@ -163,7 +153,7 @@ public final class Api {
         return t;
     }
     void approve(JSONObject game,String t)throws Exception{
-        String dispatch=fixtureDispatch(); // Fail before scanning if configuration is absent.
+        String dispatch=DispatchProvider.fetch(context); // Fetch before scan; no fixture or stale fallback.
         JSONObject scan=new JSONObject().put("device",device).put("app_id",1).put("ts",System.currentTimeMillis()).put("ticket",t);signGame(scan);
         JSONObject scanned=http("https://api-sdk.mihoyo.com/bh3_cn/combo/panda/qrcode/scan",scan.toString(),true);event("qr_scan",scanned.optString("retcode","missing"));checkGame(scanned);
         JSONObject raw=new JSONObject().put("heartbeat",false).put("open_id",game.getString("open_id")).put("combo_id",game.getString("combo_id")).put("combo_token",game.getString("combo_token")).put("device_id",device).put("app_id","1").put("channel_id","14").put("account_type",game.optString("account_type","2")).put("asterisk_name","HONKAI QR");

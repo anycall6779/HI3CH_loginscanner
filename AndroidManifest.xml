@@ -1,12 +1,12 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="dev.local.bililight" android:versionCode="7" android:versionName="0.6.0-scan-preview">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="io.anycall6779.honkaiqr" android:versionCode="8" android:versionName="0.7.0-beta">
   <uses-sdk android:minSdkVersion="26" android:targetSdkVersion="34"/>
   <uses-permission android:name="android.permission.INTERNET"/>
   <uses-permission android:name="android.permission.CAMERA"/>
   <uses-feature android:name="android.hardware.camera" android:required="false"/>
   <queries><package android:name="tv.danmaku.bili"/><package android:name="tv.danmaku.bilibilihd"/></queries>
-  <application android:label="Honkai Link · Dev" android:icon="@drawable/ic_launcher" android:theme="@android:style/Theme.Material.NoActionBar" android:allowBackup="false" android:usesCleartextTraffic="false" android:supportsRtl="true">
-    <activity android:name=".MainActivity" android:exported="true" android:screenOrientation="portrait" android:windowSoftInputMode="adjustResize"><intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter></activity>
-    <activity android:name=".ScanActivity" android:exported="false" android:screenOrientation="portrait"/>
-    <activity android:name=".AppleAuthActivity" android:exported="false" android:screenOrientation="portrait"/>
+  <application android:label="HONKAI QR · Beta" android:icon="@drawable/ic_launcher" android:theme="@android:style/Theme.Material.NoActionBar" android:allowBackup="false" android:usesCleartextTraffic="false" android:supportsRtl="true">
+    <activity android:name="dev.local.bililight.MainActivity" android:exported="true" android:screenOrientation="portrait" android:windowSoftInputMode="adjustResize"><intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter></activity>
+    <activity android:name="dev.local.bililight.ScanActivity" android:exported="false" android:screenOrientation="portrait"/>
+    <activity android:name="dev.local.bililight.AppleAuthActivity" android:exported="false" android:screenOrientation="portrait"/>
   </application>
 </manifest>

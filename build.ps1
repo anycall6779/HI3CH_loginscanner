@@ -1,6 +1,8 @@
 param(
     [string]$Sdk = "$env:LOCALAPPDATA\Android\Sdk",
-    [string]$BuildDir = "$PSScriptRoot\..\..\work\bililight-build"
+    [string]$BuildDir = "$PSScriptRoot\..\..\work\bililight-build",
+    [string]$SigningKeystore = "",
+    [string]$SigningAlias = "honkaiqr"
 )
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
@@ -31,11 +33,17 @@ Run "$tools\aapt2.exe" @('link','-I',$android,'--manifest',"$PSScriptRoot\Androi
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 $z = [IO.Compression.ZipFile]::Open("$BuildDir\base.apk",[IO.Compression.ZipArchiveMode]::Update)
 try { foreach ($d in Get-ChildItem -LiteralPath "$CompileDir\dex" -Filter '*.dex') { [IO.Compression.ZipFileExtensions]::CreateEntryFromFile($z,$d.FullName,$d.Name,[IO.Compression.CompressionLevel]::Optimal) | Out-Null } } finally { $z.Dispose() }
-$keystore = Join-Path $BuildDir 'debug.jks'
-if (!(Test-Path -LiteralPath $keystore)) { Run 'keytool' @('-genkeypair','-keystore',$keystore,'-storepass','android','-keypass','android','-alias','androiddebugkey','-dname','CN=Local BiliLight Debug','-keyalg','RSA','-keysize','2048','-validity','3650') }
+if ($SigningKeystore) {
+    $keystore = [IO.Path]::GetFullPath($SigningKeystore)
+    if (!(Test-Path -LiteralPath $keystore) -or !$env:HONKAIQR_STORE_PASS) { throw 'Release signing requires an existing keystore and HONKAIQR_STORE_PASS environment variable' }
+    $alias = $SigningAlias; $pass = 'env:HONKAIQR_STORE_PASS'; $output = Join-Path $PSScriptRoot 'HONKAI-QR-0.7.0-beta.apk'
+} else {
+    $keystore = Join-Path $BuildDir 'debug.jks'
+    if (!(Test-Path -LiteralPath $keystore)) { Run 'keytool' @('-genkeypair','-keystore',$keystore,'-storepass','android','-keypass','android','-alias','androiddebugkey','-dname','CN=Local BiliLight Debug','-keyalg','RSA','-keysize','2048','-validity','3650') }
+    $alias = 'androiddebugkey'; $pass = 'pass:android'; $output = Join-Path $PSScriptRoot 'BiliLight-debug.apk'
+}
 Run "$tools\zipalign.exe" @('-f','4',"$BuildDir\base.apk","$BuildDir\aligned.apk")
-$output = Join-Path $PSScriptRoot 'BiliLight-debug.apk'
-Run "$tools\apksigner.bat" @('sign','--ks',$keystore,'--ks-pass','pass:android','--key-pass','pass:android','--out',$output,"$BuildDir\aligned.apk")
+Run "$tools\apksigner.bat" @('sign','--ks',$keystore,'--ks-key-alias',$alias,'--ks-pass',$pass,'--key-pass',$pass,'--out',$output,"$BuildDir\aligned.apk")
 Run "$tools\apksigner.bat" @('verify','--verbose',$output)
 Get-FileHash -LiteralPath $output -Algorithm SHA256
 Write-Output "Built: $output"
