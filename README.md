@@ -20,9 +20,9 @@
     <th>03 · PC QR 연결</th>
   </tr>
   <tr>
-    <td><img src="docs/images/home.png" width="260" alt="홈 화면: 데모 계정 카드와 PC QR 스캔 버튼" /></td>
-    <td><img src="docs/images/account.png" width="260" alt="계정 연결 화면: SMS 인증과 계정·비밀번호 방식 선택" /></td>
-    <td><img src="docs/images/scan.png" width="260" alt="PC 연결 화면: 카메라, 갤러리, QR 주소 입력" /></td>
+    <td><img src="docs/images/home-cropped.png" width="260" alt="홈 화면: 데모 계정 카드와 PC QR 스캔 버튼" /></td>
+    <td><img src="docs/images/account-cropped.png" width="260" alt="계정 연결 화면: SMS 인증과 계정·비밀번호 방식 선택" /></td>
+    <td><img src="docs/images/scan-cropped.png" width="260" alt="PC 연결 화면: 카메라, 갤러리, QR 주소 입력" /></td>
   </tr>
   <tr>
     <td>계정을 연결하고<br/>PC QR 스캔으로 바로 이동합니다.</td>
