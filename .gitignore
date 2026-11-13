@@ -1,0 +1,11 @@
+*.apk
+*.idsig
+*.jks
+*.keystore
+*.p12
+*.aesgcm
+*.fixture
+local.properties
+work/
+build/
+.gradle/
