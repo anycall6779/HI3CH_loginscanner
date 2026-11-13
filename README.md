@@ -5,8 +5,7 @@
 - Bilibili China channel authentication and PC QR approval flow.
 - Encrypted multi-account profiles, local aliases, camera/image QR decoding, minimal local history.
 - High-resolution camera input, autofocus, multi-region decoding and optional zoom.
-- No in-app GitHub repository link. Developer blog: https://blog.naver.com/rkdrlgh22
-
+- 
 ## Release status
 
 Source is public. APK releases are intentionally withheld until independent official dispatch retrieval and a clean end-to-end login are verified. User-derived dispatch fixtures, account files, logs and signing keys are **not included**. The current source builds, but PC approval stops without a verified dispatch provider.
